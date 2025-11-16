@@ -1,0 +1,18 @@
+services:
+  websocket-server:
+    build: .
+    ports:
+      - "3000:3000"
+    restart: unless-stopped
+    container_name: wacb-websockets
+    env_file:
+      - .env
+    command: npm run dev
+    volumes:
+      - .:/usr/src/app
+    networks:
+      - async-php-network
+
+networks:
+  async-php-network:
+    external: true

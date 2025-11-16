@@ -1,0 +1,110 @@
+{
+    "name": "m1n64/docker-symfony-nginx-php-postgres",
+    "description": "Minimal clean Docker configuration with PHP 8.1+, NGINX 1.20+, PostgreSQL 14.2+ and Symfony 7.0 for development.",
+    "type": "project",
+    "license": "MIT",
+    "minimum-stability": "stable",
+    "prefer-stable": true,
+    "authors": [
+        {
+            "name": "Sergey Volkar",
+            "email": "sergey@volkar.ru"
+        },
+        {
+            "name": "Kirill Sakharov",
+            "email": "kirillsakharov.personal@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=8.3",
+        "ext-ctype": "*",
+        "ext-iconv": "*",
+        "ext-pdo": "*",
+        "amphp/amp": "^3",
+        "amphp/http-client": "^5",
+        "amphp/parallel-functions": "^2",
+        "api-platform/doctrine-orm": "^4.2",
+        "api-platform/symfony": "^4.2",
+        "baldinof/roadrunner-bundle": "^3.3",
+        "doctrine/annotations": "^2.0",
+        "doctrine/dbal": "^3.10",
+        "doctrine/doctrine-bundle": "^2.18",
+        "doctrine/doctrine-migrations-bundle": "^3.6",
+        "doctrine/orm": "^2.20",
+        "phpstan/phpdoc-parser": "*",
+        "revolt/event-loop": "^1",
+        "roadrunner-php/symfony-lock-driver": "^1.1",
+        "spiral/roadrunner-jobs": "^4.7",
+        "symfony/cache": "^7.3",
+        "symfony/console": "^7.3",
+        "symfony/doctrine-messenger": "^7.3",
+        "symfony/dotenv": "^7.3",
+        "symfony/flex": "^2",
+        "symfony/framework-bundle": "^7.3",
+        "symfony/http-client": "7.3.*",
+        "symfony/messenger": "7.3.*",
+        "symfony/property-access": "^7.3",
+        "symfony/property-info": "^7.3",
+        "symfony/redis-messenger": "7.3.*",
+        "symfony/routing": "^7.3",
+        "symfony/runtime": "^7.3",
+        "symfony/yaml": "^7.3"
+    },
+    "require-dev": {
+        "doctrine/doctrine-fixtures-bundle": "*",
+        "phpunit/phpunit": "^10.0",
+        "spiral/roadrunner-cli": "^2.7",
+        "symfony/maker-bundle": "*",
+        "symfony/phpunit-bridge": "^7.3"
+    },
+    "config": {
+        "allow-plugins": {
+            "composer/package-versions-deprecated": true,
+            "symfony/flex": true,
+            "symfony/runtime": true
+        },
+        "optimize-autoloader": true,
+        "preferred-install": {
+            "*": "dist"
+        },
+        "sort-packages": true
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "App\\Tests\\": "tests/"
+        }
+    },
+    "replace": {
+        "symfony/polyfill-ctype": "*",
+        "symfony/polyfill-iconv": "*",
+        "symfony/polyfill-php72": "*",
+        "symfony/polyfill-php73": "*",
+        "symfony/polyfill-php74": "*",
+        "symfony/polyfill-php80": "*"
+    },
+    "scripts": {
+        "auto-scripts": {
+            "cache:clear": "symfony-cmd",
+            "assets:install %PUBLIC_DIR%": "symfony-cmd"
+        },
+        "post-install-cmd": [
+            "@auto-scripts"
+        ],
+        "post-update-cmd": [
+            "@auto-scripts"
+        ]
+    },
+    "conflict": {
+        "symfony/symfony": "*"
+    },
+    "extra": {
+        "symfony": {
+            "require": "7.3.*"
+        }
+    }
+}

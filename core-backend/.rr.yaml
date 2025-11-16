@@ -1,0 +1,83 @@
+version: '3'
+
+server:
+  command: "php public/index.php"
+  relay: pipes
+  env:
+    - APP_RUNTIME: Baldinof\RoadRunnerBundle\Runtime\Runtime
+#  env:
+#    - XDEBUG_SESSION: 1
+
+http:
+  address: 0.0.0.0:${HTTP_PORT:-8080}
+  middleware: ["static", "headers"]
+  headers:
+    cors:
+      allowed_origin: "*"
+      allowed_headers: "*"
+      allowed_methods: "GET,POST,PUT,DELETE"
+      allow_credentials: true
+      exposed_headers: "Cache-Control,Content-Language,Content-Type,Expires,Last-Modified,Pragma"
+      max_age: 600
+      options_success_status: 200
+    response:
+      X-Powered-By: "RoadRunner/Beauty-Framework"
+  pool:
+    num_workers: 4
+    max_jobs: 1000
+    # cpu: true
+    supervisor:
+      watch_tick: 1s
+    debug: true
+
+  static:
+    dir: "public"
+    forbid: [".php"]
+
+#jobs:
+#  consume: ["default", "high"]
+#  pool:
+#    command: "php bin/console messenger:consume roadrunner --limit=500 --no-interaction --quiet"
+#    num_workers: 4
+#
+#  pipelines:
+#    default:
+#      driver: memory
+#      config:
+#        priority: 10
+#        prefetch: 100
+
+# Uncomment to enable pipelines for parallel processing
+#  pipelines:
+#    concurrent:
+#      driver: memory
+#      config: {}
+#
+#  consumers:
+#    concurrent-task:
+#      pipeline: concurrent
+#      process:
+#        command: "php workers/concurrent-task-worker.php"
+#        relay: pipes
+
+# Uncomment to enable kv storage (for cache example)
+kv:
+  redis:
+    driver: redis
+    config:
+      addrs:
+        - "redis:6379"
+      db: 0
+
+reload:
+  interval: 1s
+  patterns: [ ".php" ]
+  services:
+    http:
+      dirs: [ "." ]
+      recursive: true
+      #ignore: [ "vendor" ]
+      patterns: [ ".php", ".go", ".md" ]
+
+rpc:
+  listen: tcp://127.0.0.1:6001
