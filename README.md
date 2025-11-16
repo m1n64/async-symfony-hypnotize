@@ -1,4 +1,4 @@
-# Test project for async PHP
+# Test hypnotize for async PHP with Symfony
 
 1. Symfony + RoadRunner + amphp
 2. node.js WS
